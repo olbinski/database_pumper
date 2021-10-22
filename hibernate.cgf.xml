@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
+        <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:ORCLCDB</property>
+        <property name="hibernate.connection.username">dawid</property>
+        <property name="hibernate.connection.password">dawid</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.Oracle12cDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">create</property>
+        <mapping class="entity.Address"></mapping>
+        <mapping class="entity.Category"></mapping>
+        <mapping class="entity.Company"></mapping>
+        <mapping class="entity.Invoice"></mapping>
+        <mapping class="entity.InvoiceItem"></mapping>
+        <mapping class="entity.Price"></mapping>
+        <mapping class="entity.Product"></mapping>
+        <mapping class="entity.Store"></mapping>
+        <mapping class="entity.StoresProduct"></mapping>
+    </session-factory>
+</hibernate-configuration>
