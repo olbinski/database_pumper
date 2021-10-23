@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.*;
 
 public class CompanyAndStorePumper extends AbstractPumper {
 
@@ -43,33 +44,88 @@ public class CompanyAndStorePumper extends AbstractPumper {
     @Override
     public void pump() {
 
-        var companies = new ArrayList<Company>();
-        var addresses = new ArrayList<Address>();
+        ArrayList<Company> companies = new ArrayList<Company>();
         var stores = new ArrayList<Store>();
 
 
-        try (ProgressBar pb = new ProgressBar("Addresses generator", PumperConfig.ADDRESSES_AMOUNT)) { // name, initial max
-            // Use ProgressBar("Test", 100, ProgressBarStyle.ASCII) if you want ASCII output style
+        final int processors = Runtime.getRuntime().availableProcessors();
+        final ExecutorService threads = Executors.newFixedThreadPool(processors);
 
-            for (int run = 0; run < PumperConfig.ADDRESSES_AMOUNT; run++) {
-                Address fakeAddress = generateFakeAddress(run);
-                addresses.add(fakeAddress);
-                pb.step();
-            }
-        } // progress bar stops automatically after completion of try-with-resource block
+        ProgressBar pb1 = new ProgressBar("Addresses generator", PumperConfig.ADDRESSES_AMOUNT);
+        int batchSize = PumperConfig.ADDRESSES_AMOUNT / processors;
+
+        List<Callable<List<Address>>> tasksAddresses = new ArrayList<Callable<List<Address>>>();
+
+        for (int i = 0; i < processors; i++) {
+            int finalI = i * batchSize;
+            int lastIndex = i == processors - 1 ? PumperConfig.ADDRESSES_AMOUNT : (i + 1) * batchSize;
+
+            tasksAddresses.add(() -> {
+                try (pb1) { // name, initial max
+                    // Use ProgressBar("Test", 100, ProgressBarStyle.ASCII) if you want ASCII output style
+                    var addresses = new ArrayList<Address>();
+                    for (int run = finalI; run < lastIndex; run++) {
+                        Address fakeAddress = generateFakeAddress(run);
+                        addresses.add(fakeAddress);
+                        pb1.step();
+                    }
+                    return addresses;
+                } // progress bar stops automatically after completion of try-with-resource block
+            });
+        }
+
+        try {
+            List<Future<List<Address>>> results = threads.invokeAll(tasksAddresses);
+            results.forEach(res -> {
+                try {
+                    addresses.addAll(res.get());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         Collections.shuffle(addresses);
 
-        try (ProgressBar pb = new ProgressBar("Companies generator", PumperConfig.COMPANIES_AMOUNT)) { // name, initial max
-            // Use ProgressBar("Test", 100, ProgressBarStyle.ASCII) if you want ASCII output style
+        batchSize = PumperConfig.COMPANIES_AMOUNT / processors;
 
-            for (int run = 0; run < PumperConfig.COMPANIES_AMOUNT; run++) {
-                Company fakeCompany = generateFakeCompany(run);
-                int addressId = getNextAddressId();
-                fakeCompany.setAddressId(addressId);
-                companies.add(fakeCompany);
-                pb.step();
-            }
-        } // progress bar stops automatically after completion of try-with-resource block
+        var tasksCompanies = new ArrayList<Callable<List<Company>>>();
+        ProgressBar pbc = new ProgressBar("Companies generator", PumperConfig.COMPANIES_AMOUNT);
+
+        for (int i = 0; i < processors; i++) {
+            int finalI = i * batchSize;
+            int lastIndex = i == processors - 1 ? PumperConfig.COMPANIES_AMOUNT : (i + 1) * batchSize;
+
+            tasksCompanies.add(() -> {
+                try (pbc) {
+                    var comps = new ArrayList<Company>();
+                    for (int run = finalI; run < lastIndex; run++) {
+                        Company fakeCompany = generateFakeCompany(run);
+                        int addressId = getNextAddressId();
+                        fakeCompany.setAddressId(addressId);
+                        comps.add(fakeCompany);
+                        pbc.step();
+                    }
+                    return comps;
+                } // progress bar stops automatically after completion of try-with-resource block
+            });
+        }
+
+        try {
+            List<Future<List<Company>>> results = threads.invokeAll(tasksCompanies);
+            results.forEach(res -> {
+                try {
+                    companies.addAll(res.get());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
         Collections.shuffle(companies);
 
         try (ProgressBar pb = new ProgressBar("Stores generator", PumperConfig.STORES_AMOUNT)) { // name, initial max
@@ -94,17 +150,17 @@ public class CompanyAndStorePumper extends AbstractPumper {
 
         while (storeIndex < PumperConfig.STORES_AMOUNT) {
             if (storeIndex < PumperConfig.STORES_AMOUNT * 0.6) {
-                for(int comp = 0; comp < firstClass; comp++) {
+                for (int comp = 0; comp < firstClass; comp++) {
                     stores.get(storeIndex).setOwnerCompanyId(storeCompanies.get(comp).getCompanyId());
                     storeIndex++;
                 }
             } else if (storeIndex < PumperConfig.STORES_AMOUNT * 0.8) {
-                for(int comp = firstClass; comp < secondClass; comp++) {
+                for (int comp = firstClass; comp < secondClass; comp++) {
                     stores.get(storeIndex).setOwnerCompanyId(storeCompanies.get(comp).getCompanyId());
                     storeIndex++;
                 }
-            } else if(storeIndex < PumperConfig.STORES_AMOUNT * 0.95) {
-                for(int comp = secondClass; comp < PumperConfig.STORE_COMPANIES_AMOUNT; comp++) {
+            } else if (storeIndex < PumperConfig.STORES_AMOUNT * 0.95) {
+                for (int comp = secondClass; comp < PumperConfig.STORE_COMPANIES_AMOUNT; comp++) {
                     stores.get(storeIndex).setOwnerCompanyId(storeCompanies.get(comp).getCompanyId());
                     storeIndex++;
                 }
@@ -115,12 +171,14 @@ public class CompanyAndStorePumper extends AbstractPumper {
         }
 
         try {
-            writer.write((List<CsvSerializable>)(List<?>)companies);
-            writer.write((List<CsvSerializable>)(List<?>)stores);
-            writer.write((List<CsvSerializable>)(List<?>)addresses);
+            writer.write((List<CsvSerializable>) (List<?>) companies);
+            writer.write((List<CsvSerializable>) (List<?>) stores);
+            writer.write((List<CsvSerializable>) (List<?>) addresses);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        threads.shutdown();
     }
 
     private entity.Company generateFakeCompany(int id) {
@@ -136,8 +194,6 @@ public class CompanyAndStorePumper extends AbstractPumper {
         var date = Timestamp.from(Instant.ofEpochSecond(EPOCH_FROM + random_seconds));
 
         var nip = faker.regexify("([0-1]){10}");
-
-        //TODO address_id, nip
 
         return entity.Company.builder()
                 .companyId(id)
@@ -158,7 +214,6 @@ public class CompanyAndStorePumper extends AbstractPumper {
         var random_seconds = Integer.valueOf(random.nextInt(DIFFERENCE)).longValue();
 
         var date = Timestamp.from(Instant.ofEpochSecond(EPOCH_FROM + random_seconds));
-
 
         return entity.Store.builder()
                 .storeId(id)
@@ -189,7 +244,7 @@ public class CompanyAndStorePumper extends AbstractPumper {
                 .build();
     }
 
-    private int getNextAddressId() {
+    private synchronized int getNextAddressId() {
         return addresses.get(nextAddress++).getAddressId();
     }
 
