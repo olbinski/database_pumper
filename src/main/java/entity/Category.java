@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Table(name = "CATEGORIES")
-public class Category {
+public class Category implements CsvSerializable {
 
     @Id
     @Column(name = "CATEGORY_ID")
@@ -26,4 +26,14 @@ public class Category {
 
     @Column(name = "PARENT_CATEGORY_ID")
     private Integer parentCategoryId;
+
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }

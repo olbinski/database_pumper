@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Getter
 @Entity
 @Table(name = "INVOCIE_ITEMS")
-public class InvoiceItem {
+public class InvoiceItem implements CsvSerializable {
 
     @Id
     @Column(name = "INVOICE_ITEM_ID")
@@ -38,4 +38,20 @@ public class InvoiceItem {
 
     @Column(name = "DISCOUNT")
     private BigDecimal discount;
+
+
+    public String insertSql() {
+        return String.format("insert into INVOCIE_ITEMS (INVOICE_ITEM_ID, INVOICE_iD, ITEM_ID, NET_PRICE, VAT, QUANTITY, DISCOUNT  ) values (%s, '%s', %s, '%s', %s, '%s', %s);\n",
+                invoiceItemId, invoiceId, itemId, netPrice, vat, quantity, discount);
+    }
+
+    public String csvRow() {
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                invoiceItemId, invoiceId, itemId, netPrice, vat, quantity, discount);
+    }
+
+    public String csvHeader() {
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                "INVOICE_ITEM_ID", "INVOICE_iD", "ITEM_ID", "NET_PRICE", "VAT", "QUANTITY", "DISCOUNT");
+    }
 }

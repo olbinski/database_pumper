@@ -1,12 +1,14 @@
 package pumpers;
 
 import com.github.javafaker.Faker;
+import entity.CsvSerializable;
 import entity.Product;
 
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 public class ProductPumper extends AbstractPumper {
@@ -15,9 +17,9 @@ public class ProductPumper extends AbstractPumper {
     private static final int CATEGORY_AMOUNT = 100;
 
     @Override
-    protected void pump() {
-    long start = new Date().getTime();
-        var list = new ArrayList<Product>();
+    protected List<CsvSerializable> pump() {
+        long start = new Date().getTime();
+        var list = new ArrayList<CsvSerializable>();
         Random random = new Random();
 
         for (int i = 0; i < AMOUNT; i++) {
@@ -40,12 +42,9 @@ public class ProductPumper extends AbstractPumper {
 
         }
 
-        for (Product product : list) {
-            session.save(product);
-        }
 
         long end = new Date().getTime();
         System.out.println("ProductPumper took: " + ((end - start) / 1000) + " seconds");
-
+        return list;
     }
 }

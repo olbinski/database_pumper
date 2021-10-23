@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "STORES_PRODUCTS")
-public class StoresProduct {
+public class StoresProduct implements CsvSerializable {
 
     @Id
     @Column(name = "STORES_PRODUCT_ID")
@@ -35,4 +35,14 @@ public class StoresProduct {
 
     @Column(name = "LAST_REPLENISHMENT_DATE")
     private Timestamp lastReplenishmentDate;
+
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }

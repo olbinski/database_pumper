@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "PRODUCT")
-public class Product {
+public class Product implements CsvSerializable {
 
     @Id
     @Column(name = "PRODUCT_ID")
@@ -38,4 +38,14 @@ public class Product {
 
     @Column(name = "published")
     private Boolean published;
+
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }

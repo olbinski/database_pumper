@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "INVOICES")
-public class Invoice {
+public class Invoice implements CsvSerializable {
 
     @Id
     @Column(name = "INVOICE_ID")
@@ -28,8 +28,22 @@ public class Invoice {
     private Timestamp supplyDate;
 
     @Column(name = "SUPPLIER_ID")
-    private Timestamp supplierId;
+    private Integer supplierId;
 
     @Column(name = "CLIENT_ID")
     private Integer clientId;
+
+
+    public String csvRow() {
+        return String.format("%s, %s, %s, %s, %s\n",
+                invoiceId, invoiceDate, supplyDate, supplierId, clientId);
+    }
+
+    @Override
+    public String csvHeader() {
+        return String.format("%s, %s, %s, %s, %s\n",
+                "INVOICE_ID", "INVOICE_DATE", "supply_date", "SUPPLIER_ID", "CLIENT_ID");
+    }
+
+
 }

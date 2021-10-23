@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "STORES")
-public class Store {
+public class Store implements CsvSerializable {
 
     @Id
     @Column(name = "STORE_ID")
@@ -33,4 +33,13 @@ public class Store {
     @Column(name = "CREATION_DATE")
     private Timestamp creationDate;
 
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }

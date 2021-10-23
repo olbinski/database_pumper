@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @Getter
 @Entity
 @Table(name = "PRICE_LIST")
-public class Price {
+public class Price implements CsvSerializable {
 
     @Id
     @Column(name = "PRICE_LIST_ID")
@@ -34,4 +34,13 @@ public class Price {
     @Column(name = "EFFECTIVE_FROM")
     private Timestamp effectiveFrom;
 
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }

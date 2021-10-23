@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Getter
 @Entity
 @Table(name = "ADDRESSES")
-public class Address {
+public class Address implements CsvSerializable {
 
     @Id
     @Column(name = "ADDRESS_ID")
@@ -34,4 +34,14 @@ public class Address {
 
     @Column(name = "ADDRESS_NUMBER")
     private String addressNumber;
+
+    @Override
+    public String csvRow() {
+        return null;
+    }
+
+    @Override
+    public String csvHeader() {
+        return null;
+    }
 }
