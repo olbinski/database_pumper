@@ -6,6 +6,7 @@ import entity.Invoice;
 import entity.InvoiceItem;
 import me.tongfei.progressbar.ProgressBar;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -26,7 +27,7 @@ public class InvoicePumper extends AbstractPumper {
     private int nextInvoiceId = 1;
 
     @Override
-    protected List<CsvSerializable> pump() {
+    public void pump() {
 
         var invoices = new ArrayList<CsvSerializable>();
         var invoicesItems = new ArrayList<InvoiceItem>();
@@ -45,8 +46,11 @@ public class InvoicePumper extends AbstractPumper {
                 pb.step();
             }
         } // progress bar stops automatically after completion of try-with-resource block
-        return invoices;
-
+        try {
+            writer.write(invoices);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

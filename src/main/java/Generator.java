@@ -9,23 +9,16 @@ public class Generator {
     public static void main(String[] args) {
 
         List<AbstractPumper> pumpers = Arrays.asList(
-                new AddressPumpers(),
-                new CategoryPumper(),
-                new CompanyPumper(),
-                new InvoicePumper(),
-                new InvoiceItemPumper(),
-                new PricePumper(),
-                new ProductPumper(),
-                new StorePumper(),
-                new StoresProductPumper()
+                new CompanyAndStorePumper(),
+                new InvoicePumper()
         );
 
         for (AbstractPumper pumper : pumpers) {
-//            pumper.run();
+//            pumper.pump();
         }
 
-        var pumper = new InvoicePumper();
+        var pumper = new CompanyAndStorePumper();
 
-        pumper.run();
+        pumper.pump();
     }
 }

@@ -14,14 +14,6 @@ public abstract class AbstractPumper {
     public AbstractPumper() {
     }
 
-    public void run() {
-        List<CsvSerializable> pump = pump();
-        try {
-            writer.write(pump);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
-    protected abstract List<CsvSerializable> pump();
+    public abstract void pump();
 }
