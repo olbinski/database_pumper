@@ -45,7 +45,7 @@ public class CompanyPumper extends AbstractPumper {
         //TODO address_id, nip
 
         return entity.Company.builder()
-                .id(id)
+                .companyId(id)
                 .name(companyName)
                 .ownerFirstName(firstName)
                 .owenerLastName(lastName)

@@ -6,9 +6,38 @@ import entity.Address;
 import entity.CsvSerializable;
 import me.tongfei.progressbar.ProgressBar;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class AddressPumpers extends AbstractPumper {
+
+
+    List<String> voivodeships = Arrays.asList(
+            "dolnośląskie",
+            "mazowieckie",
+            "dolnośląskie",
+            "dolnośląskie",
+            "mazowieckie",
+            "kujawsko-pomorskie",
+            "lubelskie",
+            "lubuskie",
+            "łódzkie",
+            "małopolskie",
+            "dolnośląskie",
+            "mazowieckie",
+            "opolskie",
+            "podkarpackie",
+            "podlaskie",
+            "pomorskie",
+            "śląskie",
+            "dolnośląskie",
+            "świętokrzyskie",
+            "dolnośląskie",
+            "warmińsko-mazurskie",
+            "mazowieckie",
+            "wielkopolskie",
+            "zachodniopomorskie"
+    );
 
     @Override
     protected List<CsvSerializable> pump() {
