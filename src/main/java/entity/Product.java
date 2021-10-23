@@ -36,16 +36,18 @@ public class Product implements CsvSerializable {
     @Column(name = "MODIFIED_DATE")
     private Timestamp modifiedDate;
 
-    @Column(name = "published")
+    @Column(name = "PUBLISHED")
     private Boolean published;
 
     @Override
     public String csvRow() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                productId, name, barcode, categoryId, creationDate, modifiedDate, published);
     }
 
     @Override
     public String csvHeader() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                "PRODUCT_ID", "NAME", "BARCODE", "CATEGORY_ID", "CREATION_DATE", "MODIFIED_DATE", "PUBLISHED");
     }
 }

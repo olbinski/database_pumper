@@ -19,7 +19,7 @@ public class Store implements CsvSerializable {
 
     @Id
     @Column(name = "STORE_ID")
-    private Integer store_id;
+    private Integer storeId;
 
     @Column(name = "NAME")
     private String name;
@@ -35,11 +35,13 @@ public class Store implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s\n",
+                storeId, name, addressId, ownerCompanyId, creationDate);
     }
 
     @Override
     public String csvHeader() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s\n",
+                "STORE_ID", "NAME", "ADDRESS_ID", "OWNER_COMPANY_ID", "CREATION_DATE");
     }
 }

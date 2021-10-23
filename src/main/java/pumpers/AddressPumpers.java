@@ -10,11 +10,6 @@ import java.util.List;
 
 public class AddressPumpers extends AbstractPumper {
 
-
-    public AddressPumpers() {
-        super();
-    }
-
     @Override
     protected List<CsvSerializable> pump() {
         var address = Address.builder().addressId(1).build();

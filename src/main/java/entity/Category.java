@@ -29,11 +29,13 @@ public class Category implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return null;
+        return String.format("%s, %s, %s\n",
+                categoryId, name, parentCategoryId);
     }
 
     @Override
     public String csvHeader() {
-        return null;
+        return String.format("%s, %s, %s\n",
+                "CATEGORY_ID", "NAME", "PARENT_CATEGORY_ID");
     }
 }

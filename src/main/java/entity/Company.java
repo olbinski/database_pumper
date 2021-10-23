@@ -18,8 +18,8 @@ import java.sql.Timestamp;
 public class Company implements CsvSerializable {
 
     @Id
-    @Column(name = "ID")
-    private Integer id;
+    @Column(name = "COMPANY_ID")
+    private Integer companyId;
 
     @Column(name = "NIP")
     private String nip;
@@ -33,7 +33,7 @@ public class Company implements CsvSerializable {
     @Column(name = "OWNER_LAST_NAME")
     private String owenerLastName;
 
-    @Column(name = "ADRESS_ID")
+    @Column(name = "ADDRESS_ID")
     private Integer addressId;
 
     @Column(name = "CREATION_DATE")
@@ -41,11 +41,13 @@ public class Company implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                companyId, nip, name, ownerFirstName, owenerLastName, addressId, creationDate);
     }
 
     @Override
     public String csvHeader() {
-        return null;
+        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+                "COMPANY_ID", "NIP", "NAME", "OWNER_FIRST_NAME", "OWNER_LAST_NAME", "ADDRESS_ID", "CREATION_DATE");
     }
 }
