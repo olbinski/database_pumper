@@ -1,19 +1,33 @@
 package pumpers;
 
 import config.PumperConfig;
+import dto.ProductDto;
 import entity.CsvSerializable;
 import entity.Invoice;
 import entity.InvoiceItem;
+import entity.Price;
 import me.tongfei.progressbar.ProgressBar;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class InvoicePumper extends AbstractPumper {
 
+    private final Map<Integer, ProductDto> products;
+    private final List<Integer> productIds;
+    private List<Integer> clientsIds;  // TODO
+    private List<Integer> suppliersIds; // TODO
+
+    public InvoicePumper(List<ProductDto> products) {
+        this.products = products.stream().collect(Collectors.toMap(ProductDto::getProductId, x -> x));
+        this.productIds = this.products.keySet().stream().toList(); // TODO: make more chances to get some products
+    }
 
     private static final long EPOCH_FROM = 1420074000; // January 1, 2015 1:00:00 AM
     private static final int DIFFERENCE = 212976000;
@@ -37,7 +51,7 @@ public class InvoicePumper extends AbstractPumper {
             for (int run = 0; run < PumperConfig.INVOICE_AMOUNT; run++) {
                 Invoice fakeInvoice = createFakeInvoice();
                 for (int i1 = 0; i1 < random.nextInt(PumperConfig.MAX_ITEMS_PER_INVOICE_AMOUNT); i1++) {
-                    var invoiceItem = createFakeInvoiceItem(fakeInvoice.getInvoiceId());
+                    var invoiceItem = createFakeInvoiceItem(fakeInvoice.getInvoiceId(), fakeInvoice.getInvoiceDate());
                     invoicesItems.add(invoiceItem);
                 }
                 invoices.add(fakeInvoice);
@@ -65,16 +79,27 @@ public class InvoicePumper extends AbstractPumper {
                 .build();
     }
 
-    private InvoiceItem createFakeInvoiceItem(int invoiceId) {
+    private InvoiceItem createFakeInvoiceItem(int invoiceId, Timestamp timestamp) {
+
+
+        Integer productId = this.productIds.get(random.nextInt(this.productIds.size()));
+
+        ProductDto productDto = this.products.get(productId);
+        Price price = productDto.getPrice(timestamp);
+
+        BigDecimal discount = BigDecimal.ZERO;
+        if (PumperConfig.DISCOUNT_CHANCE < random.nextDouble()) {
+            discount = PumperConfig.DISCOUNT_POSSIBILITIES.get(random.nextInt(PumperConfig.DISCOUNT_POSSIBILITIES.size()));
+        }
 
         return InvoiceItem.builder()
                 .invoiceItemId(getNextInvoiceItemId())
                 .invoiceId(invoiceId)
-                .itemId(random.nextInt(PumperConfig.PRODUCT_AMOUNT))
-                .netPrice(BigDecimal.valueOf(random.nextDouble() * 100))
-                .vat(BigDecimal.TEN)
+                .itemId(price.getProductId())
+                .netPrice(price.getNetPrice())
+                .vat(price.getVat())
                 .quantity(random.nextInt(10))
-                .discount(BigDecimal.ZERO)
+                .discount(discount)
                 .build();
     }
 

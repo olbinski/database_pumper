@@ -1,7 +1,4 @@
-import pumpers.AbstractPumper;
-import pumpers.CompanyAndStorePumper;
-import pumpers.PriceListPumper;
-import pumpers.ProductAndCategoriesPumper;
+import pumpers.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -10,11 +7,15 @@ import java.util.List;
 public class Generator {
 
     public static void main(String[] args) {
+        CompanyAndStorePumper companyAndStorePumper = new CompanyAndStorePumper();
+        ProductAndCategoriesPumper productAndCategoriesPumper = new ProductAndCategoriesPumper();
+        PriceListPumper priceListPumper = new PriceListPumper();
+        InvoicePumper invoicePumper = new InvoicePumper(priceListPumper.getProductWithPrices());
 
         List<AbstractPumper> pumpers = Arrays.asList(
-                new CompanyAndStorePumper(),
-                new ProductAndCategoriesPumper(),
-                new PriceListPumper()
+                companyAndStorePumper,
+                productAndCategoriesPumper,
+                priceListPumper
 //                new InvoicePumper()
         );
 

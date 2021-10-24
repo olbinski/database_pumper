@@ -1,6 +1,7 @@
 package pumpers;
 
 import config.PumperConfig;
+import dto.ProductDto;
 import entity.Price;
 import me.tongfei.progressbar.ProgressBar;
 import utils.Utils;
@@ -9,15 +10,22 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
 
+import static java.util.stream.Collectors.groupingBy;
+
 public class PriceListPumper extends AbstractPumper {
 
     private final Random random = new Random();
+    private final List<ProductDto> productWithPrices = new ArrayList<ProductDto>();
 
     List<BigDecimal> vats = Arrays.asList(
             new BigDecimal("5.00"),
             new BigDecimal("8.00"),
             new BigDecimal("23.00")
     );
+
+    public List<ProductDto> getProductWithPrices() {
+        return productWithPrices;
+    }
 
     @Override
     public void pump() {
@@ -29,6 +37,16 @@ public class PriceListPumper extends AbstractPumper {
                 pb.step();
             }
         }
+
+        Map<Integer, List<Price>> collect = prices.stream().collect(groupingBy(Price::getProductId));
+
+        for (Map.Entry<Integer, List<Price>> integerListEntry : collect.entrySet()) {
+            ProductDto productDto = new ProductDto();
+            productDto.setProductId(integerListEntry.getKey());
+            productDto.setPriceList(integerListEntry.getValue());
+            this.productWithPrices.add(productDto);
+        }
+
 
         Collections.shuffle(prices);
         for (int i = 0; i < prices.size(); i++) {
