@@ -6,12 +6,10 @@ import entity.Invoice;
 import entity.InvoiceItem;
 import me.tongfei.progressbar.ProgressBar;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class InvoicePumper extends AbstractPumper {
@@ -46,11 +44,7 @@ public class InvoicePumper extends AbstractPumper {
                 pb.step();
             }
         } // progress bar stops automatically after completion of try-with-resource block
-        try {
-            writer.write(invoices);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writer.write(invoices);
     }
 
 

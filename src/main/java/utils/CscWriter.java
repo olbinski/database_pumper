@@ -11,23 +11,28 @@ import java.util.List;
 public class CscWriter {
 
 
-    public void write(List<CsvSerializable> rows) throws IOException {
+    public void write(List<? extends CsvSerializable> rows) {
+        try {
 
-        String classSimpleName = rows.get(0).getClass().getSimpleName();
-        File file = new File("data/" + classSimpleName + ".csv");
+            String classSimpleName = rows.get(0).getClass().getSimpleName();
+            File file = new File("data/" + classSimpleName + ".csv");
 
-        if(!file.exists()) {
-            file.createNewFile();
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+
+            FileWriter writer = new FileWriter(file);
+
+            writer.write(rows.get(0).csvHeader());
+
+            for (CsvSerializable row : ProgressBar.wrap(rows, "Writing: " + classSimpleName)) {
+                writer.write(row.csvRow());
+            }
+
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
-        FileWriter writer = new FileWriter(file);
-
-        writer.write(rows.get(0).csvHeader());
-
-        for (CsvSerializable row : ProgressBar.wrap(rows, "Writing: " + classSimpleName)) {
-            writer.write(row.csvRow());
-        }
-
-        writer.close();
     }
 }

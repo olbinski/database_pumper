@@ -2,14 +2,18 @@ package pumpers;
 
 import com.github.javafaker.Faker;
 import config.PumperConfig;
-import entity.*;
+import entity.Address;
+import entity.Company;
+import entity.Store;
 import me.tongfei.progressbar.ProgressBar;
 
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 public class CompanyAndStorePumper extends AbstractPumper {
 
@@ -83,7 +87,7 @@ public class CompanyAndStorePumper extends AbstractPumper {
                     e.printStackTrace();
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -122,7 +126,7 @@ public class CompanyAndStorePumper extends AbstractPumper {
                     e.printStackTrace();
                 }
             });
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -170,13 +174,9 @@ public class CompanyAndStorePumper extends AbstractPumper {
             }
         }
 
-        try {
-            writer.write((List<CsvSerializable>) (List<?>) companies);
-            writer.write((List<CsvSerializable>) (List<?>) stores);
-            writer.write((List<CsvSerializable>) (List<?>) addresses);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        writer.write(companies);
+        writer.write(stores);
+        writer.write(addresses);
 
         threads.shutdown();
     }

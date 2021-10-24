@@ -2,7 +2,7 @@ package config;
 
 public class PumperConfig {
 
-    public static final int PRODUCT_AMOUNT = 955;
+    public static final int PRODUCT_AMOUNT = 997;
     public static final int COMPANIES_AMOUNT = 10000;
     public static final int STORE_COMPANIES_AMOUNT = 10;
     public static final int STORES_AMOUNT = 50;

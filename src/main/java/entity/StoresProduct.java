@@ -21,11 +21,14 @@ public class StoresProduct implements CsvSerializable {
     @Column(name = "STORES_PRODUCT_ID")
     private Integer storesProductId;
 
+    @Column(name = "STORE_ID")
+    private Integer storeId;
+
     @Column(name = "PRODUCT_ID")
     private Integer productId;
 
     @Column(name = "AVAILABLE")
-    private Integer available;
+    private Boolean available;
 
     @Column(name = "MIN_QUANTITY")
     private Integer minQuantity;
