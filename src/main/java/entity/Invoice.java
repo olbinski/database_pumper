@@ -35,13 +35,13 @@ public class Invoice implements CsvSerializable {
 
 
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 invoiceId, invoiceDate, supplyDate, supplierId, clientId);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 "INVOICE_ID", "INVOICE_DATE", "supply_date", "SUPPLIER_ID", "CLIENT_ID");
     }
 

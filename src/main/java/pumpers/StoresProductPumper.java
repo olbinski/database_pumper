@@ -6,6 +6,7 @@ import me.tongfei.progressbar.ProgressBar;
 import utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class StoresProductPumper extends AbstractPumper {
@@ -15,6 +16,12 @@ public class StoresProductPumper extends AbstractPumper {
     @Override
     public void pump() {
         ArrayList<StoresProduct> storeProducts = generateStoresProducts();
+
+        Collections.shuffle(storeProducts);
+
+        for (int i = 0; i < storeProducts.size(); i++) {
+            storeProducts.get(i).setStoresProductId(i);
+        }
 
         writer.write(storeProducts);
     }
@@ -29,10 +36,13 @@ public class StoresProductPumper extends AbstractPumper {
 
                     var minQuantity = random.nextInt(10) + 2;
                     var maxQuantity = random.nextInt(100) + minQuantity;
+                    var avaliable = minQuantity + random.nextInt(maxQuantity = minQuantity);
+
+
                     StoresProduct storeProduct = StoresProduct.builder()
                             .storeId(storeId)
                             .productId(productId)
-                            .available(random.nextBoolean())
+                            .available(avaliable)
                             .minQuantity(minQuantity)
                             .maxQuantity(maxQuantity)
                             .lastReplenishmentDate(Utils.getRandomTimestampFromSecondHalf())

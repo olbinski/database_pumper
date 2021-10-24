@@ -28,7 +28,7 @@ public class StoresProduct implements CsvSerializable {
     private Integer productId;
 
     @Column(name = "AVAILABLE")
-    private Boolean available;
+    private Integer available;
 
     @Column(name = "MIN_QUANTITY")
     private Integer minQuantity;
@@ -41,13 +41,13 @@ public class StoresProduct implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s\n",
                 storesProductId, productId, available, minQuantity, maxQuantity, lastReplenishmentDate);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s\n",
                 "STORES_PRODUCT_ID", "PRODUCT_ID", "AVAILABLE", "MIN_QUANTITY", "MAX_QUANTITY", "LAST_REPLENISHMENT_DATE");
     }
 }

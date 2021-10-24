@@ -37,13 +37,13 @@ public class Address implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s\n",
                 addressId, voivodeship, city, postalCode, street, addressNumber);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s\n",
                 "ADDRESS_ID", "VOIVODESHIP", "CITY", "POSTAL_CODE", "STREET", "ADDRESS_NUMBER");
     }
 }

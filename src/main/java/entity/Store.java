@@ -35,13 +35,13 @@ public class Store implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 storeId, name, addressId, ownerCompanyId, creationDate);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 "STORE_ID", "NAME", "ADDRESS_ID", "OWNER_COMPANY_ID", "CREATION_DATE");
     }
 }

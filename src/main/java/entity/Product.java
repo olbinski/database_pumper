@@ -41,13 +41,13 @@ public class Product implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
-                productId, name, barcode, categoryId, creationDate, modifiedDate, published);
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
+                productId, name, barcode, categoryId, creationDate, modifiedDate, published ? 1 : 0);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 "PRODUCT_ID", "NAME", "BARCODE", "CATEGORY_ID", "CREATION_DATE", "MODIFIED_DATE", "PUBLISHED");
     }
 }

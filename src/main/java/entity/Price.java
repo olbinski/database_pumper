@@ -36,13 +36,13 @@ public class Price implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 priceListId, productId, netPrice, vat, effectiveFrom);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s\n",
                 "PRICE_LIST_ID", "PRODUCT_ID", "NET_PRICE", "VAT", "EFFECTIVE_FROM");
     }
 }

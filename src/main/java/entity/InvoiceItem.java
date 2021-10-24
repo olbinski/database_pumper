@@ -41,17 +41,17 @@ public class InvoiceItem implements CsvSerializable {
 
 
     public String insertSql() {
-        return String.format("insert into INVOCIE_ITEMS (INVOICE_ITEM_ID, INVOICE_iD, ITEM_ID, NET_PRICE, VAT, QUANTITY, DISCOUNT  ) values (%s, '%s', %s, '%s', %s, '%s', %s);\n",
+        return String.format("insert into INVOCIE_ITEMS (INVOICE_ITEM_ID, INVOICE_iD, ITEM_ID, NET_PRICE, VAT, QUANTITY, DISCOUNT  ) values (%s, '%s';%s, '%s';%s, '%s';%s);\n",
                 invoiceItemId, invoiceId, itemId, netPrice, vat, quantity, discount);
     }
 
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 invoiceItemId, invoiceId, itemId, netPrice, vat, quantity, discount);
     }
 
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 "INVOICE_ITEM_ID", "INVOICE_iD", "ITEM_ID", "NET_PRICE", "VAT", "QUANTITY", "DISCOUNT");
     }
 }

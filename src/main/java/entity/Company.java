@@ -41,13 +41,13 @@ public class Company implements CsvSerializable {
 
     @Override
     public String csvRow() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 companyId, nip, name, ownerFirstName, owenerLastName, addressId, creationDate);
     }
 
     @Override
     public String csvHeader() {
-        return String.format("%s, %s, %s, %s, %s, %s, %s\n",
+        return String.format("%s;%s;%s;%s;%s;%s;%s\n",
                 "COMPANY_ID", "NIP", "NAME", "OWNER_FIRST_NAME", "OWNER_LAST_NAME", "ADDRESS_ID", "CREATION_DATE");
     }
 }

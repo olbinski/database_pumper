@@ -8,6 +8,8 @@ import utils.Utils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -63,10 +65,23 @@ public class PriceListPumper extends AbstractPumper {
         var basePrice = getPrice();
         BigDecimal vat = vats.get(random.nextInt(vats.size()));
 
+
         BigDecimal netPrice = BigDecimal.valueOf(getPrice(basePrice));
         netPrice = netPrice.setScale(2, RoundingMode.HALF_UP);
 
+        prices.add(Price.builder()
+                .productId(productId)
+                .netPrice(netPrice)
+                .vat(vat)
+                .effectiveFrom(Timestamp.from(Instant.ofEpochSecond(Utils.EPOCH_FROM)))
+                .build()
+        );
+
         for (int i = 0; i < howMuch; i++) {
+
+            netPrice = BigDecimal.valueOf(getPrice(basePrice));
+            netPrice = netPrice.setScale(2, RoundingMode.HALF_UP);
+
             prices.add(Price.builder()
                     .productId(productId)
                     .netPrice(netPrice)

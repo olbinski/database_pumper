@@ -1,10 +1,7 @@
 package dto;
 
 import entity.Price;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,6 +12,7 @@ import java.util.List;
 @Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
 
     private int productId;
@@ -26,6 +24,6 @@ public class ProductDto {
     }
 
     public Price getPrice(Timestamp date) {
-        return this.priceList.stream().filter(x -> x.getEffectiveFrom().after(date)).findFirst().orElse(null);
+        return this.priceList.stream().filter(x -> !x.getEffectiveFrom().after(date)).findFirst().orElse(null);
     }
 }

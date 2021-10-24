@@ -19,27 +19,26 @@ import java.util.stream.Collectors;
 
 public class InvoicePumper extends AbstractPumper {
 
-    private final Map<Integer, ProductDto> products;
+    private final List<ProductDto> productDtoList;
+    private Map<Integer, ProductDto> products;
     private final List<Integer> productIds;
-    private List<Integer> clientsIds;  // TODO
-    private List<Integer> suppliersIds; // TODO
 
     public InvoicePumper(List<ProductDto> products) {
-        this.products = products.stream().collect(Collectors.toMap(ProductDto::getProductId, x -> x));
-        this.productIds = this.products.keySet().stream().toList(); // TODO: make more chances to get some products
+        this.productDtoList = products;
+        this.productIds = PumperConfig.productIdsWithPriorities;
     }
 
     private static final long EPOCH_FROM = 1420074000; // January 1, 2015 1:00:00 AM
     private static final int DIFFERENCE = 212976000;
     private static final int TWO_WEEKS = 1209600;
 
-    private static final int BATCH_SIZE = 1;
     private final Random random = new Random();
     private int nextInvoiceItemId = 1;
     private int nextInvoiceId = 1;
 
     @Override
     public void pump() {
+        this.products = this.productDtoList.stream().collect(Collectors.toMap(ProductDto::getProductId, x -> x));
 
         var invoices = new ArrayList<CsvSerializable>();
         var invoicesItems = new ArrayList<InvoiceItem>();
@@ -59,6 +58,7 @@ public class InvoicePumper extends AbstractPumper {
             }
         } // progress bar stops automatically after completion of try-with-resource block
         writer.write(invoices);
+        writer.write(invoicesItems);
     }
 
 
@@ -66,9 +66,8 @@ public class InvoicePumper extends AbstractPumper {
         long invoiceDateSeconds = random.nextInt(DIFFERENCE) + EPOCH_FROM;
         long supplyDateSeconds = random.nextInt(TWO_WEEKS) + invoiceDateSeconds;
 
-        int supplierId = 1; // TODO
-        int clientId = random.nextInt(PumperConfig.COMPANIES_AMOUNT); // TODO
-
+        int supplierId = PumperConfig.supplierPrioritiesOnInvoices.get(random.nextInt(PumperConfig.supplierPrioritiesOnInvoices.size()));
+        int clientId = PumperConfig.clientPrioritiesOnInvoices.get(random.nextInt(PumperConfig.clientPrioritiesOnInvoices.size()));
 
         return Invoice.builder()
                 .invoiceId(getNextInvoiceId())
@@ -88,7 +87,7 @@ public class InvoicePumper extends AbstractPumper {
         Price price = productDto.getPrice(timestamp);
 
         BigDecimal discount = BigDecimal.ZERO;
-        if (PumperConfig.DISCOUNT_CHANCE < random.nextDouble()) {
+        if (PumperConfig.DISCOUNT_CHANCE > random.nextDouble()) {
             discount = PumperConfig.DISCOUNT_POSSIBILITIES.get(random.nextInt(PumperConfig.DISCOUNT_POSSIBILITIES.size()));
         }
 
