@@ -193,7 +193,7 @@ public class CompanyAndStorePumper extends AbstractPumper {
 
         var date = Timestamp.from(Instant.ofEpochSecond(EPOCH_FROM + random_seconds));
 
-        var nip = faker.regexify("([0-1]){10}");
+        var nip = faker.regexify("([0-9]){10}");
 
         return entity.Company.builder()
                 .companyId(id)
