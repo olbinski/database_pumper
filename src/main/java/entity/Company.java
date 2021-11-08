@@ -21,16 +21,16 @@ public class Company implements CsvSerializable {
     @Column(name = "COMPANY_ID")
     private Integer companyId;
 
-    @Column(name = "NIP")
+    @Column(name = "NIP", length = 10)
     private String nip;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 40)
     private String name;
 
-    @Column(name = "OWNER_FIRST_NAME")
+    @Column(name = "OWNER_FIRST_NAME", length = 30)
     private String ownerFirstName;
 
-    @Column(name = "OWNER_LAST_NAME")
+    @Column(name = "OWNER_LAST_NAME", length = 30)
     private String owenerLastName;
 
     @Column(name = "ADDRESS_ID")

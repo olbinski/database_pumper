@@ -21,7 +21,7 @@ public class Store implements CsvSerializable {
     @Column(name = "STORE_ID")
     private Integer storeId;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 30)
     private String name;
 
     @Column(name = "ADDRESS_ID")

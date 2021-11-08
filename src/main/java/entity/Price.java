@@ -25,10 +25,10 @@ public class Price implements CsvSerializable {
     @Column(name = "PRODUCT_ID")
     private Integer productId;
 
-    @Column(name = "NET_PRICE")
+    @Column(name = "NET_PRICE", precision = 0)
     private BigDecimal netPrice;
 
-    @Column(name = "VAT")
+    @Column(name = "VAT", precision = 0)
     private BigDecimal vat;
 
     @Column(name = "EFFECTIVE_FROM")

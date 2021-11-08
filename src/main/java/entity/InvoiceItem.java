@@ -27,16 +27,16 @@ public class InvoiceItem implements CsvSerializable {
     @Column(name = "ITEM_ID")
     private Integer itemId;
 
-    @Column(name = "NET_PRICE")
+    @Column(name = "NET_PRICE", scale = 2)
     private BigDecimal netPrice;
 
-    @Column(name = "VAT")
+    @Column(name = "VAT", scale = 2)
     private BigDecimal vat;
 
-    @Column(name = "QUANTITY")
+    @Column(name = "QUANTITY", scale = 0)
     private Integer quantity;
 
-    @Column(name = "DISCOUNT")
+    @Column(name = "DISCOUNT", scale = 2)
     private BigDecimal discount;
 
 

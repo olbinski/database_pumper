@@ -21,10 +21,10 @@ public class Product implements CsvSerializable {
     @Column(name = "PRODUCT_ID")
     private Integer productId;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 30)
     private String name;
 
-    @Column(name = "BARCODE")
+    @Column(name = "BARCODE", length = 20)
     private String barcode;
 
     @Column(name = "CATEGORY_ID")
@@ -39,15 +39,18 @@ public class Product implements CsvSerializable {
     @Column(name = "PUBLISHED")
     private Boolean published;
 
+    @Column(name = "DSCRIPTION", length = 2000)
+    private String description;
+
     @Override
     public String csvRow() {
         return String.format("%s;%s;%s;%s;%s;%s;%s\n",
-                productId, name, barcode, categoryId, creationDate, modifiedDate, published ? 1 : 0);
+                productId, name, barcode, categoryId, creationDate, modifiedDate, published ? 1 : 0, description);
     }
 
     @Override
     public String csvHeader() {
         return String.format("%s;%s;%s;%s;%s;%s;%s\n",
-                "PRODUCT_ID", "NAME", "BARCODE", "CATEGORY_ID", "CREATION_DATE", "MODIFIED_DATE", "PUBLISHED");
+                "PRODUCT_ID", "NAME", "BARCODE", "CATEGORY_ID", "CREATION_DATE", "MODIFIED_DATE", "PUBLISHED", "DSCRIPTION");
     }
 }

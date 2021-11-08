@@ -3,6 +3,7 @@ package utils;
 import entity.CsvSerializable;
 import me.tongfei.progressbar.ProgressBar;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,11 +23,18 @@ public class CscWriter {
             }
 
             FileWriter writer = new FileWriter(file);
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
             writer.write(rows.get(0).csvHeader());
 
-            for (CsvSerializable row : ProgressBar.wrap(rows, "Writing: " + classSimpleName)) {
-                writer.write(row.csvRow());
+            try (ProgressBar pb = new ProgressBar("Stores generator", rows.size())) { // name, initial max
+
+                for (int i = 0; i < rows.size(); i++) {
+                    var row = rows.get(i);
+                    rows.set(i, null);
+                    bufferedWriter.write(row.csvRow());
+
+                }
             }
 
             writer.close();

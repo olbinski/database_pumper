@@ -20,19 +20,19 @@ public class Address implements CsvSerializable {
     @Column(name = "ADDRESS_ID")
     private Integer addressId;
 
-    @Column(name = "VOIVODESHIP")
+    @Column(name = "VOIVODESHIP", length = 100)
     private String voivodeship;
 
-    @Column(name = "CITY")
+    @Column(name = "CITY", length = 100)
     private String city;
 
-    @Column(name = "POSTAL_CODE")
+    @Column(name = "POSTAL_CODE", length = 10)
     private String postalCode;
 
-    @Column(name = "STREET")
+    @Column(name = "STREET", length = 100)
     private String street;
 
-    @Column(name = "ADDRESS_NUMBER")
+    @Column(name = "ADDRESS_NUMBER", length = 255)
     private String addressNumber;
 
     @Override

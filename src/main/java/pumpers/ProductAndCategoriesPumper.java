@@ -119,6 +119,7 @@ public class ProductAndCategoriesPumper extends AbstractPumper {
                 String barcode = faker.regexify("([0-9]){15}");
                 Instant creationDate = Instant.ofEpochSecond(Utils.EPOCH_FROM + random.nextInt(Utils.DIFFERENCE));
                 Instant modifiedDate = Instant.now();
+                String description = String.join(" ", faker.lorem().words(random.nextInt(10) + 3));
 
                 products.add(Product.builder()
                         .productId(i)
@@ -128,6 +129,7 @@ public class ProductAndCategoriesPumper extends AbstractPumper {
                         .modifiedDate(Timestamp.from(modifiedDate))
                         .name(name)
                         .published(true)
+                        .description(description)
                         .build()
                 );
                 pb.step();

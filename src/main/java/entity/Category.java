@@ -21,7 +21,7 @@ public class Category implements CsvSerializable {
     @Column(name = "CATEGORY_ID")
     private Integer categoryId;
 
-    @Column(name = "NAME")
+    @Column(name = "NAME", length = 100)
     private String name;
 
     @Column(name = "PARENT_CATEGORY_ID")

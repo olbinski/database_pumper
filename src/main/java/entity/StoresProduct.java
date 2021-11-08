@@ -27,13 +27,13 @@ public class StoresProduct implements CsvSerializable {
     @Column(name = "PRODUCT_ID")
     private Integer productId;
 
-    @Column(name = "AVAILABLE")
+    @Column(name = "AVAILABLE", precision = 0)
     private Integer available;
 
-    @Column(name = "MIN_QUANTITY")
+    @Column(name = "MIN_QUANTITY", precision = 0)
     private Integer minQuantity;
 
-    @Column(name = "MAX_QUANTITY")
+    @Column(name = "MAX_QUANTITY", precision = 0)
     private Integer maxQuantity;
 
     @Column(name = "LAST_REPLENISHMENT_DATE")

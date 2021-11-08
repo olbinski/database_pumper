@@ -1,32 +1,35 @@
 import pumpers.*;
 
-import java.util.Arrays;
-import java.util.List;
-
 
 public class Generator {
 
     public static void main(String[] args) {
+
+        runCompany();
+        runProduct();
+        runStoresProduct();
+        runInvoice();
+    }
+
+    private static void runCompany() {
         CompanyAndStorePumper companyAndStorePumper = new CompanyAndStorePumper();
+        companyAndStorePumper.pump();
+    }
+
+    private static void runProduct() {
         ProductAndCategoriesPumper productAndCategoriesPumper = new ProductAndCategoriesPumper();
+        productAndCategoriesPumper.pump();
+    }
+
+    private static void runStoresProduct() {
         StoresProductPumper storesProductPumper = new StoresProductPumper();
+        storesProductPumper.pump();
+    }
+
+    private static void runInvoice() {
         PriceListPumper priceListPumper = new PriceListPumper();
+        priceListPumper.pump();
         InvoicePumper invoicePumper = new InvoicePumper(priceListPumper.getProductWithPrices());
-
-        List<AbstractPumper> pumpers = Arrays.asList(
-                companyAndStorePumper,
-                productAndCategoriesPumper,
-                storesProductPumper,
-                priceListPumper,
-                invoicePumper
-        );
-
-        for (AbstractPumper pumper : pumpers) {
-            pumper.pump();
-        }
-
-//        var pumper = new ProductAndCategoriesPumper();
-//
-//        pumper.pump();
+        invoicePumper.pump();
     }
 }
