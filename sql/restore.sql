@@ -13,7 +13,7 @@ create table INVOICES as (Select *
 create table INVOICE_ITEMS as (Select *
                                from X_BACKUP_INVOICE_ITEM xbii);
 create table PRODUCTS as (Select *
-                          from X_BACKUP_PORDUCT xbp);
+                          from X_BACKUP_PRODUCT xbp);
 
 ALTER TABLE INVOICES
     ADD CONSTRAINT INVOICES_PK PRIMARY KEY (INVOICE_ID) ENABLE;
