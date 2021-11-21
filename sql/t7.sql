@@ -17,7 +17,11 @@ From (
                 MAX(pl.vat)           vat
          from (Select PRODUCT_ID
                from PRODUCTS p
-               where p.CATEGORY_ID in (
+               where p.COLOR in ('WHITE', 'BLACK', 'GRAY')
+                 AND p.MATERIAL in
+                     ('MARBLE', 'WOOL', 'SILK', 'WOODEN', 'PAPER', 'RUBBER', 'STEEL', 'CONCRETE', 'LEATHER', 'COTTON')
+                 AND (p.WEIGHT < 1 or p.WEIGHT > 1.2)
+                 AND p.CATEGORY_ID in (
                    WITH categories_rec (CATEGORY_ID,
                                         NAME,
                                         PARENT_CATEGORY_ID) AS (
@@ -37,7 +41,6 @@ From (
                                 INNER JOIN categories_rec o
                                            ON o.CATEGORY_ID = e.PARENT_CATEGORY_ID
                    )
-
                    select CATEGORY_ID
                    from categories_rec
                )) pp
