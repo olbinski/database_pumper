@@ -21,7 +21,7 @@ public class InvoiceItem implements CsvSerializable {
     @Column(name = "INVOICE_ITEM_ID")
     private Integer invoiceItemId;
 
-    @Column(name = "INVOICE_iD")
+    @Column(name = "INVOICE_ID")
     private Integer invoiceId;
 
     @Column(name = "ITEM_ID")

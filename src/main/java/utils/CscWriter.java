@@ -33,7 +33,6 @@ public class CscWriter {
                     var row = rows.get(i);
                     rows.set(i, null);
                     bufferedWriter.write(row.csvRow());
-
                 }
             }
 
