@@ -42,7 +42,7 @@ public class Invoice implements CsvSerializable {
     @Override
     public String csvHeader() {
         return String.format("%s;%s;%s;%s;%s\n",
-                "INVOICE_ID", "INVOICE_DATE", "supply_date", "SUPPLIER_ID", "CLIENT_ID");
+                "INVOICE_ID", "INVOICE_DATE", "SUPPLY_DATE", "SUPPLIER_ID", "CLIENT_ID");
     }
 
 

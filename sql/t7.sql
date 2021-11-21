@@ -49,19 +49,22 @@ WITH categories_rec (CATEGORY_ID ,
 
         INNER JOIN categories_rec o   
 
-            ON o.CATEGORY_ID = e.PARENT_CATEGORY_ID   
+            ON o.CATEGORY_ID = e.PARENT_CATEGORY_ID
+)
 
-    )  
+select CATEGORY_ID
+from categories_rec
+)) pp
+                                                                                                                                          INNER JOIN PRICE_LIST pl ON pl.product_id = pp.product_id
 
-    select CATEGORY_ID from categories_rec  
+group by pl.product_id);
 
-)) pp INNER JOIN PRICE_LIST pl ON pl.product_id = pp.product_id 
+INSERT INTO Timers(timer_id, querry_id, total_time)
+VALUES (TIMER_SEQ.nextval, 7, (dbms_utility.get_time - :n) / 100);
 
-group by pl.product_id); 
-
-INSERT INTO Timers(timer_id,querry_id,total_time) VALUES(TIMER_SEQ.nextval,7, (dbms_utility.get_time-:n)/100);
-
-TRUNCATE TABLE price_list;
-INSERT INTO price_list (select * from X_BACKUP_price_list);
-alter system flush buffer_cache;
-alter system flush shared_pool;
+-- TRUNCATE TABLE price_list;
+-- INSERT INTO price_list (select * from X_BACKUP_price_list);
+alter
+system flush buffer_cache;
+alter
+system flush shared_pool;

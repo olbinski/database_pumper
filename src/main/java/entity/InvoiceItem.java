@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Setter
 @Getter
 @Entity
-@Table(name = "INVOCIE_ITEMS")
+@Table(name = "INVOICE_ITEMS")
 public class InvoiceItem implements CsvSerializable {
 
     @Id
@@ -41,7 +41,7 @@ public class InvoiceItem implements CsvSerializable {
 
 
     public String insertSql() {
-        return String.format("insert into INVOCIE_ITEMS (INVOICE_ITEM_ID, INVOICE_iD, ITEM_ID, NET_PRICE, VAT, QUANTITY, DISCOUNT  ) values (%s, '%s';%s, '%s';%s, '%s';%s);\n",
+        return String.format("insert into INVOICE_ITEMS (INVOICE_ITEM_ID, INVOICE_iD, ITEM_ID, NET_PRICE, VAT, QUANTITY, DISCOUNT  ) values (%s, '%s';%s, '%s';%s, '%s';%s);\n",
                 invoiceItemId, invoiceId, itemId, netPrice, vat, quantity, discount);
     }
 

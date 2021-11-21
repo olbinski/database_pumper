@@ -45,18 +45,19 @@ WITH categories_rec (CATEGORY_ID ,
 
         ROOT.CATEGORIES e 
 
-        INNER JOIN categories_rec o  
+        INNER JOIN categories_rec o
+                   ON o.CATEGORY_ID = e.PARENT_CATEGORY_ID
+)
 
-            ON o.CATEGORY_ID = e.PARENT_CATEGORY_ID  
+select CATEGORY_ID
+from categories_rec
+);
 
-    ) 
-
-    select CATEGORY_ID from categories_rec 
-
-);  
-
-INSERT INTO Timers(timer_id,querry_id,total_time) VALUES(TIMER_SEQ.nextval,6, (dbms_utility.get_time-:n)/100);
-TRUNCATE TABLE PRODUCT;
-INSERT INTO PRODUCT (select * from X_BACKUP_PRODUCT);
-alter system flush buffer_cache;
-alter system flush shared_pool;
+INSERT INTO Timers(timer_id, querry_id, total_time)
+VALUES (TIMER_SEQ.nextval, 6, (dbms_utility.get_time - :n) / 100);
+-- TRUNCATE TABLE PRODUCT;
+-- INSERT INTO PRODUCT (select * from X_BACKUP_PRODUCT);
+alter
+system flush buffer_cache;
+alter
+system flush shared_pool;

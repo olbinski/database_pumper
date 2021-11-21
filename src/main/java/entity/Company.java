@@ -24,13 +24,13 @@ public class Company implements CsvSerializable {
     @Column(name = "NIP", length = 10)
     private String nip;
 
-    @Column(name = "NAME", length = 40)
+    @Column(name = "NAME", length = 100)
     private String name;
 
-    @Column(name = "OWNER_FIRST_NAME", length = 30)
+    @Column(name = "OWNER_FIRST_NAME", length = 50)
     private String ownerFirstName;
 
-    @Column(name = "OWNER_LAST_NAME", length = 30)
+    @Column(name = "OWNER_LAST_NAME", length = 50)
     private String owenerLastName;
 
     @Column(name = "ADDRESS_ID")

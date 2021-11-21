@@ -37,7 +37,10 @@ public class CscWriter {
                 }
             }
 
+            bufferedWriter.flush();
+            bufferedWriter.close();
             writer.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

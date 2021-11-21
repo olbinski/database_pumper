@@ -85,22 +85,22 @@ WHERE
 (
 SELECT	 VAT FROM	 PRICE_LIST pl WHERE
 	pl.EFFECTIVE_FROM IN (
-	SELECT
-		max(pl2.EFFECTIVE_FROM)
-	FROM
-		PRICE_LIST pl2
-	WHERE
-		pl2.PRODUCT_ID = 999
-		AND EFFECTIVE_FROM < to_timestamp('08-11-2021 17:15:00', 'dd-mm-yyyy hh24:mi:ss')
-)),1 ,0);
+	SELECT max(pl2.EFFECTIVE_FROM)
+    FROM PRICE_LIST pl2
+    WHERE pl2.PRODUCT_ID = 999
+      AND EFFECTIVE_FROM < to_timestamp('08-11-2021 17:15:00', 'dd-mm-yyyy hh24:mi:ss')
+    )), 1, 0);
 
-INSERT INTO Timers(timer_id,querry_id,total_time) VALUES(TIMER_SEQ.nextval,5, (dbms_utility.get_time-:n)/100);
+INSERT INTO Timers(timer_id, querry_id, total_time)
+VALUES (TIMER_SEQ.nextval, 5, (dbms_utility.get_time - :n) / 100);
 
-TRUNCATE TABLE INVOICES;
-TRUNCATE TABLE INVOCIE_ITEMS;
+-- TRUNCATE TABLE INVOICES;
+-- TRUNCATE TABLE INVOCIE_ITEMS;
+--
+-- INSERT INTO INVOICES (select * from X_BACKUP_INVOICES);
+-- INSERT INTO INVOCIE_ITEMS (select * from X_BACKUP_INVOCIE_ITEMS);
 
-INSERT INTO INVOICES (select * from X_BACKUP_INVOICES);
-INSERT INTO INVOCIE_ITEMS (select * from X_BACKUP_INVOCIE_ITEMS);
-
-alter system flush buffer_cache;
-alter system flush shared_pool;
+alter
+system flush buffer_cache;
+alter
+system flush shared_pool;
