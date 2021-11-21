@@ -28,7 +28,7 @@ where p.CATEGORY_ID in (
 
     select CATEGORY_ID
     from categories_rec
-);
+)and p.product_id not in (select distinct item_id from invoice_items where invoice_items.invoice_id in (select invoices.invoice_id from invoices where invoices.invoice_date >=  to_timestamp('01-01-2020 00:00:00', 'dd-mm-yyyy hh24:mi:ss')));
 
 INSERT INTO Timers(timer_id, querry_id, total_time)
 VALUES (TIMER_SEQ.nextval, 6, (dbms_utility.get_time - :n) / 100);
