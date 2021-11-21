@@ -27,7 +27,7 @@ public class ProductMoreInfo {
 
                 var color = colors.get(random.nextInt(colors.size()));
                 var material = new Faker().commerce().material();
-                var weight = random.nextDouble() * 100;
+                var weight = random.nextDouble() * 10;
 
                 var sql = String.format(java.util.Locale.US, "update PRODUCTS set COLOR='%s', MATERIAL='%s', WEIGHT=%.2f where PRODUCT_ID=%s;\n", color, material.toUpperCase(Locale.ROOT), weight, i);
 
