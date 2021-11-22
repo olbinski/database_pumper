@@ -4,7 +4,7 @@ alter
     system flush shared_pool;
 variable n number
 exec :n := dbms_utility.get_time;
-set termout ON;
+set termout OFF;
 
 INSERT INTO price_list (effective_from, product_id, price_list_id, net_price, vat)
 SELECT SYSTIMESTAMP, p.PRODUCT_ID, PRICE_LIST_SEQ.nextval, (net_price * 1.1), vat
