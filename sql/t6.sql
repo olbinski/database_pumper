@@ -16,7 +16,7 @@ where p.CATEGORY_ID in (
                PARENT_CATEGORY_ID
         FROM CATEGORIES
         WHERE PARENT_CATEGORY_ID IS NULL
-          AND NAME = 'Glass, Ceramics and Concrete'
+          AND NAME = 'Libraries'
         UNION ALL
         SELECT e.CATEGORY_ID,
                e.NAME,
